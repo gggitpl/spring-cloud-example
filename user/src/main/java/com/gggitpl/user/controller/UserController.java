@@ -2,6 +2,7 @@ package com.gggitpl.user.controller;
 
 import com.gggitpl.user.model.User;
 import com.gggitpl.user.service.UserService;
+import com.google.common.base.Preconditions;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class UserController {
 
   @GetMapping("/{id}")
   public User findById(@PathVariable Long id) {
-    return User.builder().name("张三").build();
+    return userService.getById(id);
   }
 
   @GetMapping

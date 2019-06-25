@@ -18,6 +18,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest//@SpringBootTest注解会创建整个上下文
@@ -38,12 +40,20 @@ public class UserControllerAppIntegrationTest {
   @Test
   public void create() throws Exception {
     MockHttpServletRequestBuilder requestBuilder = post("/users")
-        .content(new ObjectMapper().writeValueAsBytes(User.builder().name("张三").age(10).sex(Sex.MAN).build()))
+        .content(new ObjectMapper()
+            .writeValueAsBytes(User.builder().name("张三").age(10).sex(Sex.MAN).build()))
         .contentType(MediaType.APPLICATION_JSON)
         .accept(MediaType.APPLICATION_JSON);
     MvcResult mvcResult = this.mockMvc.perform(requestBuilder)
         .andExpect(status().isCreated())
         .andReturn();
     log.debug("{}", mvcResult.getResponse().getContentAsString());
+  }
+
+  @Test
+  public void findById() throws Exception {
+    this.mockMvc.perform(get("/123"))
+        .andExpect(MockMvcResultMatchers.status().isNotFound())
+        .andDo(result -> result.getResponse().getContentAsString());
   }
 }

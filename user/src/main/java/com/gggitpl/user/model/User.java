@@ -1,5 +1,6 @@
 package com.gggitpl.user.model;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.gggitpl.user.constant.Sex;
 import lombok.AllArgsConstructor;
@@ -18,6 +19,7 @@ public class User {
   private Long id;
   private String name;
   private Integer age;
+
   private Sex sex;
   @Default
   private Long createTime = System.currentTimeMillis();
